@@ -67,10 +67,10 @@ mp_buf *mp_buf_new() {
 
 void mp_buf_append(mp_buf *buf, const unsigned char *s, size_t len) {
   if (buf->free < len) {
-    size_t newlen = buf->len + len;
+    size_t newsize = (buf->len + len)*2;
 
-    buf->b = (unsigned char *)mp_realloc(buf->b, buf->len, newlen * 2);
-    buf->free = newlen;
+    buf->b = (unsigned char *)mp_realloc(buf->b, buf->len + buf->free, newsize);
+    buf->free = newsize - buf->len;
   }
   memcpy(buf->b + buf->len, s, len);
   buf->len += len;
@@ -80,7 +80,7 @@ void mp_buf_append(mp_buf *buf, const unsigned char *s, size_t len) {
 void mp_buf_free(mp_buf *buf) {
   if (buf) {
     if (buf->b)
-      mp_realloc(buf->b, buf->len, 0); /* realloc to 0 = free */
+      mp_realloc(buf->b, buf->len + buf->free, 0); /* realloc to 0 = free */
     mp_realloc(buf, sizeof(*buf), 0);
   }
 }
