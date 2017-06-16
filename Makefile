@@ -22,3 +22,8 @@ clean:
 .PHONY: indent
 indent:
 	clang-format -style=LLVM -i *.c *.h
+
+.PHONY: scan
+scan:
+	scan-build $(MAKE) clean all
+
