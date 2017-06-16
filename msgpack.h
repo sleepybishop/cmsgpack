@@ -52,7 +52,7 @@ mp_node *msgpack_create_bool(bool b);
 mp_node *msgpack_create_integer(int64_t num);
 mp_node *msgpack_create_number(double num);
 mp_node *msgpack_create_string(const char *string);
-mp_node *msgpack_create_binary(const void *blob, size_t len);
+mp_node *msgpack_create_blob(const void *blob, size_t len);
 mp_node *msgpack_create_array(void);
 mp_node *msgpack_create_map(void);
 
@@ -84,6 +84,8 @@ mp_node *msgpack_duplicate(mp_node *item, int recurse);
   msgpack_add_item_to_map(map, name, msgpack_create_number(n))
 #define msgpack_add_string_to_map(map, name, s)                                \
   msgpack_add_item_to_map(map, name, msgpack_create_string(s))
+#define msgpack_add_blob_to_map(map, name, s, l)                               \
+  msgpack_add_item_to_map(map, name, msgpack_create_blob(s, l))
 
 #ifdef __cplusplus
 }

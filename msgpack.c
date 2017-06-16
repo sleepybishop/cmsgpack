@@ -70,6 +70,7 @@ void mp_buf_append(mp_buf *buf, const unsigned char *s, size_t len) {
     size_t newsize = (buf->len + len) * 2;
 
     buf->b = (unsigned char *)mp_realloc(buf->b, buf->len + buf->free, newsize);
+    assert(buf->b != NULL);
     buf->free = newsize - buf->len;
   }
   memcpy(buf->b + buf->len, s, len);
@@ -896,6 +897,28 @@ void *msgpack_pack(mp_node *L, size_t *len) {
 
   mp_buf_free(buf);
   return ret;
+}
+
+void msgpack_add_item_to_array(mp_node *L, mp_node *item) {
+  mp_node *c = L->child;
+  if (!item)
+    return;
+  if (!c) {
+    L->child = item;
+  } else {
+    while (c && c->next)
+      c = c->next;
+
+    c->next = item;
+    item->prev = c;
+  }
+}
+
+void msgpack_add_item_to_map(mp_node *map, const char *name, mp_node *item) {
+  if (!item)
+    return;
+  item->key = msgpack_create_string(name);
+  msgpack_add_item_to_array(map, item);
 }
 
 mp_node *msgpack_detach_item_from_array(mp_node *L, int idx) {
