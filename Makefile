@@ -1,29 +1,27 @@
-SOURCES=\
-msgpack.c\
-cJSON.c
+OBJECTS=\
+msgpack.o\
+cJSON.o
 
-CFLAGS  = -O2 -std=c99 -Wpointer-arith -D_DEFAULT_SOURCE -Wall 
-LDFLAGS += -lm
+CPPFLAGS = -D_DEFAULT_SOURCE
+CFLAGS   = -O2 -std=c99 -Wall -Wpointer-arith
+LDFLAGS  = -lm libcmsgpack.a
 
-OBJECTS = $(SOURCES:%.c=%.o)
+all: mp2json json2mp libcmsgpack.a
 
-all: mp2json json2mp
+libcmsgpack.a: $(OBJECTS)
+	$(AR) rcs $@ $(OBJECTS)
 
-mp2json: mp2json.c $(OBJECTS)
-	$(CC) $(CFLAGS) -o$@ $< $(OBJECTS) $(LDFLAGS)
+mp2json: mp2json.o libcmsgpack.a
 
-json2mp: json2mp.c $(OBJECTS)
-	$(CC) $(CFLAGS) -o$@ $< $(OBJECTS) $(LDFLAGS)
+json2mp: json2mp.o libcmsgpack.a 
 
-.PHONY: clean
+.PHONY: clean indent scan
 clean:
-	$(RM) mp2json json2mp *.o
+	$(RM) mp2json json2mp *.o *.a
 
-.PHONY: indent
 indent:
 	clang-format -style=LLVM -i *.c *.h
 
-.PHONY: scan
 scan:
 	scan-build $(MAKE) clean all
 
