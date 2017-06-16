@@ -3,8 +3,8 @@
 #include <string.h>
 
 #include "cJSON.h"
-#include "msgpack.h"
 #include "hexcodec.h"
+#include "msgpack.h"
 
 static cJSON *to_json(mp_node *item, int recurse) {
   cJSON *newitem, *newchild, *nptr = 0;

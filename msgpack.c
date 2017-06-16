@@ -1,9 +1,9 @@
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "msgpack.h"
 
@@ -67,7 +67,7 @@ mp_buf *mp_buf_new() {
 
 void mp_buf_append(mp_buf *buf, const unsigned char *s, size_t len) {
   if (buf->free < len) {
-    size_t newsize = (buf->len + len)*2;
+    size_t newsize = (buf->len + len) * 2;
 
     buf->b = (unsigned char *)mp_realloc(buf->b, buf->len + buf->free, newsize);
     buf->free = newsize - buf->len;

@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#include <unistd.h>
+
 /* cJSON Types: */
 #define cJSON_False 0
 #define cJSON_True 1
@@ -43,9 +45,9 @@ typedef struct cJSON {
   struct cJSON *next,
       *prev; /* next/prev allow you to walk array/object chains. Alternatively,
                 use GetArraySize/GetArrayItem/GetObjectItem */
-  struct cJSON *
-      child; /* An array or object item will have a child pointer
-                pointing to a chain of the items in the array/object. */
+  struct cJSON
+      *child; /* An array or object item will have a child pointer
+                 pointing to a chain of the items in the array/object. */
 
   int type; /* The type of the item, as above. */
 

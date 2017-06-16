@@ -27,8 +27,8 @@
 #ifndef HEXCODEC_H
 #define HEXCODEC_H
 
-#include <stddef.h>
 #include <errno.h>
+#include <stddef.h>
 
 // dest length must be greater than len*2
 static inline void hex_encode(unsigned char *dest, unsigned char *src,
@@ -51,7 +51,7 @@ static inline int hex_decode(char *dest, unsigned char *src, size_t len) {
       -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
       -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
       //  0  1  2  3  4  5  6  7  8  9
-      0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  -1, -1, -1, -1, -1, -1, -1,
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1, -1,
       //  A   B   C   D   E   F
       10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
       -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
