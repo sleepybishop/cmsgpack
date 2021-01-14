@@ -53,9 +53,11 @@ mp_node *msgpack_get_array_item(mp_node *L, int idx) {
 
 mp_node *msgpack_get_map_item(mp_node *map, const char *name) {
   mp_node *c = map->child;
-  while (c && c->key && c->key->type != MP_STR &&
-         strcasecmp((char *)c->key->data, name))
+  while (c && c->key && (c->key->type == MP_STR &&
+         strcasecmp((char *)c->key->data, name) != 0))
     c = c->next;
+  if ((c == NULL) || (c->key == NULL || c->key->data == NULL)) 
+    return NULL;
   return c;
 }
 
